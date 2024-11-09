@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { finalize, Observable, of, switchMap } from 'rxjs';
-import { ListagemNota } from '../models/nota.models';
+import { ListarNotaViewModel } from '../models/nota.models';
 import { NotaService } from '../services/nota.service';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { ListagemCategoria } from '../../categorias/models/categoria.models';
@@ -33,10 +33,10 @@ import { FiltroCategoriasComponent } from '../shared/filtro-categorias.component
   styleUrl: './listagem-notas-arquivadas.component.scss',
 })
 export class ListarNotasArquivadasComponent implements OnInit {
-  notas$?: Observable<ListagemNota[]>;
+  notas$?: Observable<ListarNotaViewModel[]>;
   categorias$?: Observable<ListagemCategoria[]>;
 
-  notasEmCache: ListagemNota[];
+  notasEmCache: ListarNotaViewModel[];
 
   constructor(
     private notaService: NotaService,
@@ -56,10 +56,10 @@ export class ListarNotasArquivadasComponent implements OnInit {
     });
   }
 
-  desarquivar(nota: ListagemNota) {
+  desarquivar(nota: ListarNotaViewModel) {
     nota.arquivada = false;
 
-    this.notas$ = this.notaService.editar(nota.id, nota).pipe(
+    this.notas$ = this.notaService.alterarStatus(nota.id).pipe(
       finalize(() =>
         this.notificacao.sucesso('A nota foi desarquivada com sucesso!')
       ),
@@ -67,7 +67,7 @@ export class ListarNotasArquivadasComponent implements OnInit {
     );
   }
 
-  filtrar(categoriaId?: number) {
+  filtrar(categoriaId?: string) {
     const notasFiltradas = this.obterNotasFiltradas(
       this.notasEmCache,
       categoriaId
@@ -76,9 +76,9 @@ export class ListarNotasArquivadasComponent implements OnInit {
     this.notas$ = of(notasFiltradas);
   }
 
-  private obterNotasFiltradas(notas: ListagemNota[], categoriaId?: number) {
+  private obterNotasFiltradas(notas: ListarNotaViewModel[], categoriaId?: string) {
     if (categoriaId) {
-      return notas.filter((n) => n.categoriaId == categoriaId);
+      return notas.filter((n) => n.categoria.id == categoriaId);
     }
 
     return notas;

@@ -27,7 +27,7 @@ import { MatChipsModule } from '@angular/material/chips';
 export class FiltroCategoriasComponent {
   @Input({ required: true }) categorias: ListagemCategoria[];
 
-  @Output() filtroAcionado: EventEmitter<number | undefined>;
+  @Output() filtroAcionado: EventEmitter<string | undefined>;
 
   constructor() {
     this.categorias = [];
@@ -35,7 +35,7 @@ export class FiltroCategoriasComponent {
     this.filtroAcionado = new EventEmitter();
   }
 
-  filtrar(categoriaId?: number) {
+  filtrar(categoriaId?: string) {
     this.filtroAcionado.emit(categoriaId);
   }
 }

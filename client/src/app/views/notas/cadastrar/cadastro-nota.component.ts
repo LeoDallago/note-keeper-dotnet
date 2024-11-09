@@ -23,7 +23,7 @@ import { ListagemCategoria } from '../../categorias/models/categoria.models';
 import { CategoriaService } from '../../categorias/services/categoria.service';
 import { MatCardModule } from '@angular/material/card';
 import { NotaService } from '../services/nota.service';
-import { CadastroNota } from '../models/nota.models';
+import { InserirNotaViewModel } from '../models/nota.models';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 
 @Component({
@@ -60,7 +60,8 @@ export class CadastroNotaComponent implements OnInit {
     this.notaForm = new FormGroup({
       titulo: new FormControl<string>('', [Validators.required]),
       conteudo: new FormControl<string>(''),
-      categoriaId: new FormControl<number | undefined>(undefined, [
+      arquivada: new FormControl<boolean>(false),
+      categoriaId: new FormControl<string | undefined>(undefined, [
         Validators.required,
       ]),
     });
@@ -83,11 +84,11 @@ export class CadastroNotaComponent implements OnInit {
   }
 
   cadastrar(): void {
-    const novaNota: CadastroNota = this.notaForm.value;
+    const novaNota: InserirNotaViewModel = this.notaForm.value;
 
     this.notaService.cadastrar(novaNota).subscribe((res) => {
       this.notificacao.sucesso(
-        `O registro ID [${res.id}] foi cadastrado com sucesso!`
+        `O registro ID [${res.titulo}] foi cadastrado com sucesso!`
       );
 
       this.router.navigate(['/notas']);
@@ -102,7 +103,7 @@ export class CadastroNotaComponent implements OnInit {
     return controle.pristine;
   }
 
-  mapearTituloDaCategoria(id: number, categorias: ListagemCategoria[]): string {
+  mapearTituloDaCategoria(id: string, categorias: ListagemCategoria[]): string {
     const categoria = categorias.find((categoria) => categoria.id === id);
 
     return categoria ? categoria.titulo : 'Categoria não encontrada';

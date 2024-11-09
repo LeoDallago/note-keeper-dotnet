@@ -15,7 +15,7 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
   templateUrl: './exclusao-categoria.component.html'
 })
 export class ExclusaoCategoriaComponent implements OnInit {
-  id?: number;
+  id?: string;
   categoria$?: Observable<DetalhesCategoria>;
 
   constructor(
@@ -23,7 +23,7 @@ export class ExclusaoCategoriaComponent implements OnInit {
     private router: Router,
     private categoriaService: CategoriaService,
     private notificacao: NotificacaoService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];

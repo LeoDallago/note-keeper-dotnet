@@ -18,14 +18,14 @@ import { environment } from '../../../../environments/environment';
 export class CategoriaService {
   private readonly url = `${environment.API_URL}/categorias`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   cadastrar(novaCategoria: CadastroCategoria): Observable<CategoriaCriada> {
     return this.http.post<CategoriaCriada>(this.url, novaCategoria);
   }
 
   editar(
-    id: number,
+    id: string,
     categoriaEditada: EdicaoCategoria
   ): Observable<CategoriaEditada> {
     const urlCompleto = `${this.url}/${id}`;
@@ -33,7 +33,7 @@ export class CategoriaService {
     return this.http.put<CategoriaEditada>(urlCompleto, categoriaEditada);
   }
 
-  excluir(id: number): Observable<CategoriaExcluida> {
+  excluir(id: string): Observable<CategoriaExcluida> {
     const urlCompleto = `${this.url}/${id}`;
 
     return this.http.delete<CategoriaExcluida>(urlCompleto);
@@ -43,7 +43,7 @@ export class CategoriaService {
     return this.http.get<ListagemCategoria[]>(this.url);
   }
 
-  selecionarPorId(id: number): Observable<DetalhesCategoria> {
+  selecionarPorId(id: string): Observable<DetalhesCategoria> {
     const urlCompleto = `${this.url}/${id}`;
 
     return this.http.get<DetalhesCategoria>(urlCompleto);

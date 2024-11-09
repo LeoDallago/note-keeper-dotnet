@@ -34,7 +34,7 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
   templateUrl: './edicao-categoria.component.html',
 })
 export class EdicaoCategoriaComponent implements OnInit {
-  id?: number;
+  id?: string;
   categoriaForm: FormGroup;
 
   constructor(

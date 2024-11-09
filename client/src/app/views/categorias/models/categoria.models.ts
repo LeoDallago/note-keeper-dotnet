@@ -3,7 +3,7 @@ export interface CadastroCategoria {
 }
 
 export interface CategoriaCriada {
-  id: number;
+  id: string;
   titulo: string;
 }
 
@@ -12,18 +12,18 @@ export interface EdicaoCategoria {
 }
 
 export interface CategoriaEditada {
-  id: number;
+  id: string;
   titulo: string;
 }
 
 export interface DetalhesCategoria {
-  id: number;
+  id: string;
   titulo: string;
 }
 
 export interface ListagemCategoria {
-  id: number;
+  id: string;
   titulo: string;
 }
 
-export interface CategoriaExcluida {}
+export interface CategoriaExcluida { }
