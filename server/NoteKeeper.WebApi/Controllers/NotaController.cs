@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -13,31 +14,36 @@ namespace NoteKeeper.WebApi.Controllers
     {
 
         [HttpGet]
-        public async Task<IActionResult>Get()
+        public async Task<IActionResult> Get(bool? arquivadas)
         {
-            var notasResult  = await servicoNota.SelecionarTodosAsync();
+            Result<List<Nota>> notasResult;
+
+            if (arquivadas.HasValue)
+                notasResult = await servicoNota.Filtrar(n => n.Arquivada == arquivadas);
+            else
+                notasResult = await servicoNota.SelecionarTodosAsync();
 
             if (notasResult.IsFailed)
                 return StatusCode(500);
-            
+
             var viewModel = mapper.Map<ListarNotaViewModel[]>(notasResult.Value);
-            
+
             return Ok(viewModel);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult>GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            var notaResult =  await servicoNota.SelecionarPorIdAsync(id);
-            
+            var notaResult = await servicoNota.SelecionarPorIdAsync(id);
+
             if (notaResult.IsFailed)
                 return StatusCode(500);
-          
+
             else if (notaResult.IsSuccess && notaResult.Value is null)
                 return NotFound(notaResult.Errors);
-            
+
             var viewModel = mapper.Map<VisualizarNotaViewModel>(notaResult.Value);
-            
+
             return Ok(viewModel);
         }
 
@@ -50,7 +56,7 @@ namespace NoteKeeper.WebApi.Controllers
 
             if (notaResult.IsFailed)
                 return BadRequest(notaResult.Errors);
-            
+
             return Ok(inserirNotaVm);
         }
 
@@ -58,20 +64,20 @@ namespace NoteKeeper.WebApi.Controllers
         public async Task<IActionResult> Put(Guid id, EditarNotaViewModel editarNotaVm)
         {
             var notaResult = await servicoNota.SelecionarPorIdAsync(id);
-            
+
             if (notaResult.IsFailed)
                 return StatusCode(500);
-          
+
             else if (notaResult.IsSuccess && notaResult.Value is null)
                 return NotFound(notaResult.Errors);
 
             var notaEditada = mapper.Map(editarNotaVm, notaResult.Value);
-            
+
             var edicaoResult = await servicoNota.EditarAsync(notaEditada);
 
             if (edicaoResult.IsFailed)
                 BadRequest(notaResult.Errors);
-            
+
             return Ok(editarNotaVm);
         }
 
@@ -79,12 +85,34 @@ namespace NoteKeeper.WebApi.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var resultado = await servicoNota.ExcluirAsync(id);
-            
-            if(resultado.IsFailed)
+
+            if (resultado.IsFailed)
                 return BadRequest(resultado.Errors);
-            
+
             return Ok();
         }
-        
+
+
+        [HttpPut("{id}/alterar-status/")]
+        public async Task<IActionResult> AlterarStatus(Guid id)
+        {
+            var notaResult = await servicoNota.SelecionarPorIdAsync(id);
+
+            if (notaResult.IsFailed)
+                return StatusCode(500);
+
+            if (notaResult.IsSuccess && notaResult.Value is null)
+                return NotFound(notaResult.Errors);
+
+            var edicaoResult = servicoNota.AlterarStatus(notaResult.Value);
+
+            if (edicaoResult.IsFailed)
+                return BadRequest(notaResult.Errors);
+
+            var notaVm = mapper.Map<VisualizarNotaViewModel>(edicaoResult.Value);
+
+            return Ok(notaVm);
+        }
+
     }
 }
