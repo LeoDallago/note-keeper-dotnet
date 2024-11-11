@@ -44,7 +44,7 @@ namespace NoteKeeper.WebApi.Controllers
          var resultado = await servicoCategoria.InserirAsync(categoria);
          
          if(resultado.IsFailed)
-             return BadRequest(resultado.Errors.Select(err => err.Message));
+             return BadRequest(resultado.Errors);
          
          return Ok(categoriaVm);
         }
@@ -60,7 +60,7 @@ namespace NoteKeeper.WebApi.Controllers
             var resultado = await servicoCategoria.EditarAsync(categoria);
 
             if (resultado.IsFailed)
-                return BadRequest(resultado.Errors.Select(err => err.Message));
+                return BadRequest(resultado.Errors);
             
             return Ok(resultado);
         }
