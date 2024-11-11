@@ -55,7 +55,7 @@ namespace NoteKeeper.WebApi.Controllers
             var notaResult = await servicoNota.InserirAsync(nota);
 
             if (notaResult.IsFailed)
-                return BadRequest(notaResult.Errors);
+                return BadRequest(notaResult.Errors.Select(err => err.Message));
 
             return Ok(inserirNotaVm);
         }
@@ -76,7 +76,7 @@ namespace NoteKeeper.WebApi.Controllers
             var edicaoResult = await servicoNota.EditarAsync(notaEditada);
 
             if (edicaoResult.IsFailed)
-                BadRequest(notaResult.Errors);
+                return BadRequest(notaResult.Errors.Select(err => err.Message));
 
             return Ok(editarNotaVm);
         }

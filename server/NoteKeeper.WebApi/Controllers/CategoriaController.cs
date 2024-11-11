@@ -14,9 +14,7 @@ namespace NoteKeeper.WebApi.Controllers
         public async Task<IActionResult> Get()
         {
             var resultado = await servicoCategoria.SelecionarTodosAsync();
-
-            if (resultado.IsFailed)
-                return StatusCode(500);
+            
 
             var viewModel = mapper.Map<ListarCategoriaViewModel[]>(resultado.Value);
             
@@ -46,7 +44,7 @@ namespace NoteKeeper.WebApi.Controllers
          var resultado = await servicoCategoria.InserirAsync(categoria);
          
          if(resultado.IsFailed)
-             return BadRequest(resultado.Errors);
+             return BadRequest(resultado.Errors.Select(err => err.Message));
          
          return Ok(categoriaVm);
         }
@@ -62,7 +60,7 @@ namespace NoteKeeper.WebApi.Controllers
             var resultado = await servicoCategoria.EditarAsync(categoria);
 
             if (resultado.IsFailed)
-                return BadRequest(resultado.Errors);
+                return BadRequest(resultado.Errors.Select(err => err.Message));
             
             return Ok(resultado);
         }
