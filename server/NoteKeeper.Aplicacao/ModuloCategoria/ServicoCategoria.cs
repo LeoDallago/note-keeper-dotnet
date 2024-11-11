@@ -70,6 +70,7 @@ public class ServicoCategoria
 
     public async Task<Result<List<Categoria>>> SelecionarTodosAsync()
     {
+        
         var categorias = await _repositorioCategoria.SelecionarTodosAsync();
 
         return Result.Ok(categorias);

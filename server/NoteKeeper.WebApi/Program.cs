@@ -7,6 +7,7 @@ using NoteKeeper.Dominio.ModuloNota;
 using NoteKeeper.Infra.Orm.Compartilhado;
 using NoteKeeper.Infra.Orm.ModuloCategoria;
 using NoteKeeper.Infra.Orm.ModuloNota;
+using NoteKeeper.WebApi.Config;
 using NoteKeeper.WebApi.Filters;
 
 const string politicaCors = "_minhaPoliticaCors";
@@ -56,6 +57,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseGlobalExceptionHandler();
 
     app.UseSwagger();
     app.UseSwaggerUI();
