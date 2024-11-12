@@ -79,4 +79,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal("Ocorreu um erro que ocasionou o fechamendo da aplicacao", ex);
+    return;
+}
