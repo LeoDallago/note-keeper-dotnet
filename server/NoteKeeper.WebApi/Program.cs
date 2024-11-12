@@ -25,10 +25,10 @@ builder.Services.AddDbContext<IContextoPersistencia, NoteKeeperDbContext>(option
     });
 });
 
-builder.Services.AddScoped<IRepositorioCategoria,RepositorioCategoriaOrm>();
+builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaOrm>();
 builder.Services.AddScoped<ServicoCategoria>();
 
-builder.Services.AddScoped<IRepositorioNota,RepositorioNotaOrm>();
+builder.Services.AddScoped<IRepositorioNota, RepositorioNotaOrm>();
 builder.Services.AddScoped<ServicoNota>();
 
 builder.Services.AddScoped<ConfigurarCategoriaMappingAction>();
@@ -57,14 +57,14 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.ConfigureSerilog(builder.Logging);
+builder.Services.ConfigureSerilog(builder.Logging, builder.Configuration);
 
 var app = builder.Build();
 
 app.UseGlobalExceptionHandler();
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 var migracaoConcluida = app.AutoMigrateDataBase();
 

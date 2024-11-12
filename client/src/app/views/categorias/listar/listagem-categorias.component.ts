@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CategoriaService } from '../services/categoria.service';
-import { Observable } from 'rxjs';
+import { Observable, timestamp } from 'rxjs';
 
 @Component({
   selector: 'app-listagem-categorias',
@@ -28,7 +28,8 @@ import { Observable } from 'rxjs';
 export class ListagemCategoriasComponent implements OnInit {
   categorias$?: Observable<ListagemCategoria[]>;
 
-  constructor(private categoriaService: CategoriaService) {}
+  constructor(
+    private categoriaService: CategoriaService) { }
 
   ngOnInit(): void {
     this.categorias$ = this.categoriaService.selecionarTodos();
