@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NoteKeeper.Aplicacao.ModuloCategoria;
 using NoteKeeper.Dominio.ModuloCategoria;
+using Serilog;
 
 namespace NoteKeeper.WebApi.Controllers
 {
@@ -17,6 +18,8 @@ namespace NoteKeeper.WebApi.Controllers
             
 
             var viewModel = mapper.Map<ListarCategoriaViewModel[]>(resultado.Value);
+
+            Log.Information("Foram Selecionados {QuantidadeRegistros} Registros", viewModel.Count());
             
             return Ok(viewModel);
         }

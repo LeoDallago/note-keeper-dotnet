@@ -9,6 +9,7 @@ using NoteKeeper.Infra.Orm.ModuloCategoria;
 using NoteKeeper.Infra.Orm.ModuloNota;
 using NoteKeeper.WebApi.Config;
 using NoteKeeper.WebApi.Filters;
+using Serilog;
 
 const string politicaCors = "_minhaPoliticaCors";
 
@@ -56,6 +57,8 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureSerilog(builder.Logging);
+
 var app = builder.Build();
 
 app.UseGlobalExceptionHandler();
@@ -63,18 +66,10 @@ app.UseGlobalExceptionHandler();
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    //micracoes de banco de dados
-    { 
-        using var scope = app.Services.CreateScope();
+var migracaoConcluida = app.AutoMigrateDataBase();
 
-     var dbContext = scope.ServiceProvider.GetRequiredService<IContextoPersistencia>();
-
-     if (dbContext is NoteKeeperDbContext noteKeeperDbContext)
-     {
-         MigradorBancoDados.AtualizarBancoDados(noteKeeperDbContext);
-     }
-     
-    }
+if (migracaoConcluida) Log.Information("Migracao do banco de dados concluida");
+else Log.Information("Nenhuma migracao de banco de dados pendente");
 
 app.UseHttpsRedirection();
 
