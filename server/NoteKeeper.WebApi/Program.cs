@@ -10,6 +10,7 @@ using NoteKeeper.Infra.Orm.ModuloNota;
 using NoteKeeper.WebApi;
 using NoteKeeper.WebApi.Config;
 using NoteKeeper.WebApi.Filters;
+using NoteKeeper.WebApi.Identity;
 using Serilog;
 
 const string politicaCors = "_minhaPoliticaCors";
@@ -30,6 +31,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigureSerilog(builder.Logging, builder.Configuration);
+
+builder.Services.ConfigureIdentity();
 
 var app = builder.Build();
 

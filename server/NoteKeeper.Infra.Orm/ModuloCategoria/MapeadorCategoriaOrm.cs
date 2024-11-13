@@ -17,6 +17,12 @@ namespace NoteKeeper.Infra.Orm.ModuloCategoria
                 .IsRequired();
 
             builder.HasMany(x => x.Notas);
+
+            builder.HasOne(x => x.Usuario)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey(x => x.UsuarioId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
