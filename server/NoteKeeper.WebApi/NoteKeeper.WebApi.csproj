@@ -25,13 +25,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\NoteKeeper.Aplicacao\NoteKeeper.Aplicacao.csproj" />
       <ProjectReference Include="..\NoteKeeper.Dominio\NoteKeeper.Dominio.csproj" />
       <ProjectReference Include="..\NoteKeeper.Infra.Orm\NoteKeeper.Infra.Orm.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.Authentication.JwtBearer">
+        <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.authentication.jwtbearer\8.0.11\lib\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

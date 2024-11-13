@@ -7,6 +7,7 @@ using NoteKeeper.Dominio.ModuloNota;
 using NoteKeeper.Infra.Orm.Compartilhado;
 using NoteKeeper.Infra.Orm.ModuloCategoria;
 using NoteKeeper.Infra.Orm.ModuloNota;
+using NoteKeeper.WebApi.Config.Mapping;
 using NoteKeeper.WebApi.Filters;
 using Serilog;
 
@@ -44,6 +45,7 @@ public static class DependecyInjection
         {
             config.AddProfile<CategoriaProfile>();
             config.AddProfile<NotaProfile>();
+            config.AddProfile<UsuarioProfile>();
         });
     }
 
