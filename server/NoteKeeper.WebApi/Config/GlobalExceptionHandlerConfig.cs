@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace NoteKeeper.WebApi.Config;
 
-public static class ErrorHandlerExtensions
+public static class GlobalExceptionHandlerConfig
 {
     public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder app)
     {

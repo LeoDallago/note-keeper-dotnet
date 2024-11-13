@@ -7,6 +7,7 @@ using NoteKeeper.Dominio.ModuloNota;
 using NoteKeeper.Infra.Orm.Compartilhado;
 using NoteKeeper.Infra.Orm.ModuloCategoria;
 using NoteKeeper.Infra.Orm.ModuloNota;
+using NoteKeeper.WebApi;
 using NoteKeeper.WebApi.Config;
 using NoteKeeper.WebApi.Filters;
 using Serilog;
@@ -15,45 +16,16 @@ const string politicaCors = "_minhaPoliticaCors";
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration["SQL_SERVER_CONNECTION_STRING"];
+builder.Services.ConfigureDbContext(builder.Configuration);
 
-builder.Services.AddDbContext<IContextoPersistencia, NoteKeeperDbContext>(optionsBuilder =>
-{
-    optionsBuilder.UseSqlServer(connectionString, dbOptions =>
-    {
-        dbOptions.EnableRetryOnFailure();
-    });
-});
+builder.Services.ConfigureCoreServices();
 
-builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaOrm>();
-builder.Services.AddScoped<ServicoCategoria>();
+builder.Services.ConfigureAutoMapper();
 
-builder.Services.AddScoped<IRepositorioNota, RepositorioNotaOrm>();
-builder.Services.AddScoped<ServicoNota>();
+builder.Services.ConfigureCors(politicaCors);
 
-builder.Services.AddScoped<ConfigurarCategoriaMappingAction>();
+builder.Services.ConfigureControllersWithFilters();
 
-builder.Services.AddAutoMapper(config =>
-{
-    config.AddProfile<CategoriaProfile>();
-    config.AddProfile<NotaProfile>();
-});
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: politicaCors, policy =>
-    {
-        policy
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
-
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<ResponseWrapperFilter>();
-});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
