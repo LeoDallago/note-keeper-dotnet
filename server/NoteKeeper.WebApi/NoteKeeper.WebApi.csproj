@@ -29,6 +29,10 @@
       <ProjectReference Include="..\NoteKeeper.Dominio\NoteKeeper.Dominio.csproj" />
       <ProjectReference Include="..\NoteKeeper.Infra.Orm\NoteKeeper.Infra.Orm.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2"/>
+    </ItemGroup>
 
     <ItemGroup>
       <Reference Include="Microsoft.AspNetCore.Authentication.JwtBearer">
