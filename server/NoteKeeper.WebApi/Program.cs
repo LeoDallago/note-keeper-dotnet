@@ -27,8 +27,7 @@ builder.Services.ConfigureCors(politicaCors);
 
 builder.Services.ConfigureControllersWithFilters();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwaggerAuthorization();
 
 builder.Services.ConfigureSerilog(builder.Logging, builder.Configuration);
 

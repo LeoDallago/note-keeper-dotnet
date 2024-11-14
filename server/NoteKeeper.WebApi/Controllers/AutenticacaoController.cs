@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NoteKeeper.Aplicacao.ModuloAutenticacao;
 using NoteKeeper.Dominio.ModuloAutenticacao;
@@ -58,6 +59,7 @@ public class AutenticacaoController : ControllerBase
     }
 
     [HttpPost("sair")]
+    [Authorize]
     public async Task<IActionResult> Sair()
     {
         await _servicoAutenticacao.Sair();

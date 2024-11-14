@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -10,6 +11,7 @@ namespace NoteKeeper.WebApi.Controllers
 {
     [Route("api/notas")]
     [ApiController]
+    [Authorize]
     public class NotaController(ServicoNota servicoNota, IMapper mapper) : ControllerBase
     {
 
